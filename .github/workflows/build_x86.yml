@@ -85,11 +85,11 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: OpenWrt_targets
-          path: $OPENWRTROOT/bin/targets
+          path: ./openwrt/bin/targets/
 
       - name: Deliver package
         uses: actions/upload-artifact@v2
         with:
           name: OpenWrt_package
-          path: $OPENWRTROOT/bin/packages
+          path: ./openwrt/bin/packages/
 
