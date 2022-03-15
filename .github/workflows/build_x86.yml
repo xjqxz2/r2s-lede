@@ -60,7 +60,7 @@ jobs:
 
       - name: Generate configuration file
         run: |
-          cp $CONFIG_FILE $OPENWRTROOT
+          cp $CONFIG_FILE $OPENWRTROOT/.config
           cd $OPENWRTROOT
           make defconfig
 
