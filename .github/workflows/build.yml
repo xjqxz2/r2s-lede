@@ -86,6 +86,11 @@ jobs:
         make diffconfig
         make package/compile -j$(nproc) IGNORE_ERRORS=1 || make package/compile -j1 V=s IGNORE_ERRORS=1
         make package/index
+        make package/install
+        make target/install
+        make package/index
+        make json_overview_image_info
+        make checksum
 
     - name: Upload release asset
       uses: svenstaro/upload-release-action@v2
