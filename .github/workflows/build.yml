@@ -53,7 +53,7 @@ jobs:
     - name: Update Feeds
       id: update
       run: |
-        echo "OPENWRTROOT=$PWD" >> $GITHUB_ENV
+        echo "OPENWRTROOT=$PWD/openwrt/" >> $GITHUB_ENV
         echo "strDate=$(TZ=UTC-8 date +%Y-%m-%d)" >> $GITHUB_ENV
         echo "::set-output name=OPENWRTROOT::$(echo $PWD)"
         cp $FEEDS_FILE ./openwrt/feeds.conf.default
