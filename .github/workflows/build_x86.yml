@@ -74,6 +74,8 @@ jobs:
         run: |
           cd $OPENWRTROOT
           make -j$(nproc) || make -j1 V=s
+          cp ./openwrt/bin/targets/x86/64/sha256sums ./openwrt/bin/targets/x86/64/openwrt-x86-64.sha256sums
+          sed -e '/feeds.buildinfo/d' -e '/config.buildinfo/d' -e '/version.buildinfo/d' bin/targets/x86/64/ -i ./openwrt/bin/targets/x86/64/openwrt-x86-64.sha256sums
           echo "======================="
           echo "Space usage:"
           echo "======================="
@@ -93,3 +95,12 @@ jobs:
           name: OpenWrt_package
           path: ./openwrt/bin/packages/
 
+      - name: Upload release asset
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{env.OPENWRTROOT}}/bin/targets/x86/64/openwrt-x86-64-generic-*
+          tag: ${{env.strDate}}
+          file_glob: true
+          overwrite: true
+          release_name: ${{env.strDate}} 自动发布
