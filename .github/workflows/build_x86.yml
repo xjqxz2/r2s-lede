@@ -31,16 +31,14 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          docker rmi `docker images -q`
-          sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d /usr/local/lib/android
-          sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* adoptopenjdk* mysql* php* mongodb* dotnet* moby* snapd* || true
           sudo -E apt-get update
-          sudo -E apt-get -qq install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 python2.7 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf wget curl swig rsync tree
+          sudo -E apt-get -qq install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 python2.7 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf wget curl swig rsync tree jq
           sudo -E apt-get -y autoremove --purge
           sudo -E apt-get clean
           df -h
           cat /proc/cpuinfo
           free -m
+          
 
       - name: Clone Source Code
         run: |
@@ -74,7 +72,7 @@ jobs:
         run: |
           cd $OPENWRTROOT
           make -j$(nproc) || make -j1 V=s
-          cp ./openwrt/bin/targets/x86/64/sha256sums ./openwrt/bin/targets/x86/64/openwrt-x86-64.sha256sums
+          cp ./bin/targets/x86/64/sha256sums ./bin/targets/x86/64/openwrt-x86-64.sha256sums
           sed -e '/feeds.buildinfo/d' -e '/config.buildinfo/d' -e '/version.buildinfo/d' bin/targets/x86/64/ -i ./openwrt/bin/targets/x86/64/openwrt-x86-64.sha256sums
           echo "======================="
           echo "Space usage:"
