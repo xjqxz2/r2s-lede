@@ -72,7 +72,7 @@ jobs:
         run: |
           cd $OPENWRTROOT
           make -j$(nproc) || make -j1 V=s
-          cp ./bin/targets/x86/64/sha256sums ./bin/targets/x86/64/openwrt-x86-64.sha256sums
+          cp ./bin/targets/x86/64/sha256sums ./bin/targets/x86/64/openwrt-x86-64-generic.sha256sums
           sed -e '/feeds.buildinfo/d' -e '/config.buildinfo/d' -e '/version.buildinfo/d'  -i ./bin/targets/x86/64/openwrt-x86-64-generic.sha256sums
           echo "======================="
           echo "Space usage:"
