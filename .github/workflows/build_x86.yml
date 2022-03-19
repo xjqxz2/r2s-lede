@@ -38,7 +38,7 @@ jobs:
           df -h
           cat /proc/cpuinfo
           free -m
-          
+
 
       - name: Clone Source Code
         run: |
@@ -51,7 +51,7 @@ jobs:
 
       - name: Update feeds
         run: |
-          cp $FEEDS_FILE $OPENWRTROOT/feeds.conf.default
+          echo "src-git helloworld https://github.com/fw876/helloworld" >> $OPENWRTROOT/feeds.conf.default
           cd $OPENWRTROOT
           ./scripts/feeds update -a
           ./scripts/feeds install -a
@@ -73,7 +73,7 @@ jobs:
           cd $OPENWRTROOT
           make -j$(nproc) || make -j1 V=s
           cp ./bin/targets/x86/64/sha256sums ./bin/targets/x86/64/openwrt-x86-64.sha256sums
-          sed -e '/feeds.buildinfo/d' -e '/config.buildinfo/d' -e '/version.buildinfo/d'  -i ./bin/targets/x86/64/openwrt-x86-64.sha256sums
+          sed -e '/feeds.buildinfo/d' -e '/config.buildinfo/d' -e '/version.buildinfo/d'  -i ./bin/targets/x86/64/openwrt-x86-64-generic.sha256sums
           echo "======================="
           echo "Space usage:"
           echo "======================="
@@ -97,8 +97,9 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{env.OPENWRTROOT}}/bin/targets/x86/64/openwrt-x86-64-generic-*
+          file: ${{env.OPENWRTROOT}}/bin/targets/x86/64/openwrt-x86-64-generic*
           tag: ${{env.strDate}}
           file_glob: true
           overwrite: true
           release_name: ${{env.strDate}} 自动发布
+
