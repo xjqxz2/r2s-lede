@@ -72,7 +72,8 @@ jobs:
         run: |
           cd $OPENWRTROOT
           make -j$(nproc) || make -j1 V=s
-          tar -cvf targets.tar.gz ./bin/targets
+          cp ./bin/targets/rockchip/armv8/ ./bin/targets/rockchip/armv8/openwrt-rockchip-armv8-generic.sha256sums
+          sed -e '/feeds.buildinfo/d' -e '/config.buildinfo/d' -e '/version.buildinfo/d'  -i ./bin/targets/rockchip/armv8/openwrt-rockchip-armv8-generic.sha256sums
           echo "======================="
           echo "Space usage:"
           echo "======================="
@@ -80,11 +81,23 @@ jobs:
           echo "======================="
           du -h --max-depth=1 ./bin
 
+      - name: Deliver target
+        uses: actions/upload-artifact@v2
+        with:
+          name: OpenWrt_targets
+          path: ./openwrt/bin/targets/
+
+      - name: Deliver package
+        uses: actions/upload-artifact@v2
+        with:
+          name: OpenWrt_package
+          path: ./openwrt/bin/packages/
+
       - name: Upload release asset
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{env.OPENWRTROOT}}/targets.tar.gz
+          file: ${{env.OPENWRTROOT}}/bin/targets/rockchip/armv8/openwrt-rockchip-armv8-friendlyarm_nanopi-r2s*
           tag: ${{env.strDate}}
           file_glob: true
           overwrite: true
