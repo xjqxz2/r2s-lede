@@ -5,7 +5,7 @@
 #
 # Copyright (C) 2020 KFERMercer
 #
-name: BUILD_X86
+name: BUILD_R2S
 
 on:
   repository_dispatch:
@@ -14,8 +14,8 @@ on:
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
-  CONFIG_FILE: config/x86/config
-  FEEDS_FILE: config/x86/feeds
+  CONFIG_FILE: config/r2s/config
+  FEEDS_FILE: config/r2s/feeds
   TZ: Asia/Shanghai
 
 jobs:
